@@ -42,8 +42,16 @@ export class VehicleService {
       UpdatedAt: new Date(),
     };
 
-    const vehicles = await this.knex.table('vehicles').insert(dataCreate);
-    return { vehicles };
+    const result = await this.knex
+      .table('vehicles')
+      .where('VehicleName', createUserDto.VehicleName);
+
+    if (!result.length) {
+      const vehicles = await this.knex.table('vehicles').insert(dataCreate);
+      return { vehicles };
+    } else {
+      return 'Vehicle name is exist';
+    }
   }
 
   async findOne(id: number) {
@@ -51,6 +59,7 @@ export class VehicleService {
       throw new NotFoundException(`Vehicle ${id} does not exist`);
     }
     const vehicles = await this.knex.table('vehicles').where('id', id);
+    // console.table(vehicles);
     return { vehicles };
   }
 
@@ -60,7 +69,6 @@ export class VehicleService {
       VehicleType: data.VehicleType,
       TextColor: data.TextColor,
       BackgroundColor: data.BackgroundColor,
-      CreatedAt: new Date(),
       UpdatedAt: new Date(),
     };
 

@@ -9,6 +9,7 @@ exports.seed = function (knex) {
         vehicles.push({
           id: i + 1,
           ...dataTest[randomNum(0, 9)],
+          VehicleName: dataTest[randomNum(0, 9)].VehicleName + ` ${i + 3}`,
           CreatedAt: new Date(),
           UpdatedAt: new Date(),
         });

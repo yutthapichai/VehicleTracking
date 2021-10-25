@@ -3,6 +3,8 @@ import { KnexModule } from 'nest-knexjs';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { VehicleModule } from './components/vehicle/vehicle.module';
+import { LocationModule } from './components/location/location.module';
+import { LocationModule } from './components/location/location.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { VehicleModule } from './components/vehicle/vehicle.module';
       },
     }),
     VehicleModule,
+    LocationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
