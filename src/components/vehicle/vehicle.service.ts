@@ -1,27 +1,48 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateVehibleDto } from './model/vehicle.dto';
-import { PartialType } from '@nestjs/mapped-types';
 import { InjectModel } from 'nest-knexjs';
 import { Knex } from 'knex';
+import { CreateVehibleState } from './model/vehicle.interface';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateVehibleDto } from './model/vehicle.dto';
 
-export class UpdateUserDto extends PartialType(CreateVehibleDto) {}
+export class UpdateVehibleDto extends PartialType(CreateVehibleDto) {}
 
 @Injectable()
 export class VehicleService {
   constructor(@InjectModel() private readonly knex: Knex) {}
 
-  async findAll() {
-    const vehicles = await this.knex.table('vehicle');
-    return { vehicles };
+  async findAll(query) {
+    const pageSize = +query.pagesize || 10;
+    const currentPage = +query.page || 1;
+    const message = query.message || 'undefined';
+
+    let count = (await this.knex('vehicles').count('id'))[0].count;
+    const vehicles = this.knex.table('vehicles');
+
+    if (message !== 'undefined') {
+      vehicles.whereRaw(`LOWER(VehicleName) LIKE ?`, [`%${message}%`]);
+      count = (await vehicles).length;
+    }
+
+    vehicles
+      .orderBy('id', 'asc')
+      .limit(pageSize)
+      .offset(pageSize * (currentPage - 1));
+
+    return { countData: count, vehicles: await vehicles };
   }
 
   async create(createUserDto: CreateVehibleDto) {
-    const vehicles = await this.knex.table('vehicle').insert({
-      name: createUserDto.name,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    const dataCreate: CreateVehibleState = {
+      VehicleName: createUserDto.VehicleName,
+      VehicleType: createUserDto.VehicleType,
+      TextColor: createUserDto.TextColor,
+      BackgroundColor: createUserDto.BackgroundColor,
+      CreatedAt: new Date(),
+      UpdatedAt: new Date(),
+    };
 
+    const vehicles = await this.knex.table('vehicles').insert(dataCreate);
     return { vehicles };
   }
 
@@ -29,14 +50,24 @@ export class VehicleService {
     if (!id) {
       throw new NotFoundException(`Vehicle ${id} does not exist`);
     }
-    const vehicles = await this.knex.table('vehicle').where('id', id);
+    const vehicles = await this.knex.table('vehicles').where('id', id);
     return { vehicles };
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    const vehicles = await this.knex.table('vehicle').where('id', id).update({
-      name: updateUserDto.name,
-    });
+  async update(id: number, data: UpdateVehibleDto) {
+    const dataUpdate: CreateVehibleState = {
+      VehicleName: data.VehicleName,
+      VehicleType: data.VehicleType,
+      TextColor: data.TextColor,
+      BackgroundColor: data.BackgroundColor,
+      CreatedAt: new Date(),
+      UpdatedAt: new Date(),
+    };
+
+    const vehicles = await this.knex
+      .table('vehicles')
+      .where('id', id)
+      .update(dataUpdate);
 
     return { vehicles };
   }
@@ -45,7 +76,7 @@ export class VehicleService {
     if (!id) {
       throw new NotFoundException(`Vehicle ${id} does not exist`);
     }
-    const vehicles = await this.knex.table('vehicle').where('id', id).del();
+    const vehicles = await this.knex.table('vehicles').where('id', id).del();
     return { vehicles };
   }
 }

@@ -1,6 +1,6 @@
 exports.up = function (knex) {
   return knex.schema.createTable('vehicles', function (table) {
-    table.increments('id');
+    table.increments('id').unsigned().primary();
     table.string('VehicleName', 255).notNullable();
     table.string('VehicleType', 255).notNullable();
     table.string('TextColor', 255).notNullable();

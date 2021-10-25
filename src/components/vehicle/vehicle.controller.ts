@@ -8,9 +8,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
-import { CreateVehibleDto, UpdateVehibleDto } from './model/vehicle.dto';
+import { CreateVehibleDto } from './model/vehicle.dto';
 import { VehicleService } from './vehicle.service';
+import { PartialType } from '@nestjs/mapped-types';
+
+export class UpdateVehibleDto extends PartialType(CreateVehibleDto) {}
 
 @Controller('vehicle')
 export class VehicleController {
@@ -26,8 +30,8 @@ export class VehicleController {
   }
 
   @Get()
-  findAll() {
-    return this.vehicleService.findAll();
+  findAll(@Query() query) {
+    return this.vehicleService.findAll(query);
   }
 
   @Get(':id')
