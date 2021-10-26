@@ -31,12 +31,13 @@ export class LocationController {
     return this.locationService.findOne(+id);
   }
 
-  @Post()
+  @Post('/')
   @UseGuards(AuthBasicGuard)
   createLocation(@Body() createUserDto: CreateLocationDto) {
     try {
       return this.locationService.create(createUserDto);
     } catch (err) {
+      // console.log(err, 'createLocation');
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }

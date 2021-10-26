@@ -41,11 +41,11 @@ export class LocationService {
     return vehicles[0];
   }
 
-  async create(createUserDto: CreateLocationDto) {
+  async create(data: CreateLocationDto) {
     const dataCreate: CreateLocationState = {
-      VehicleID: createUserDto.VehicleID,
-      Latitude: createUserDto.Latitude,
-      Longitude: createUserDto.Longitude,
+      VehicleID: data.VehicleID,
+      Latitude: data.Latitude,
+      Longitude: data.Longitude,
       CurrentDate: new Date(),
     };
 

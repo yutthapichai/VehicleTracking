@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CreateLocationState } from './location.interface';
 
 export class CreateLocationDto implements CreateLocationState {
   @IsNotEmpty()
-  @IsString()
-  VehicleID: string;
+  @IsNumber()
+  VehicleID: number;
   @IsNotEmpty()
   @IsString()
   Latitude: string;

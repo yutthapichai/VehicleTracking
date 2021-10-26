@@ -1,5 +1,5 @@
 export interface CreateLocationState {
-  VehicleID: string;
+  VehicleID: number;
   Latitude: string;
   Longitude: string;
   CurrentDate?: Date;

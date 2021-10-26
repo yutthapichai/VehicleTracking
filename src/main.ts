@@ -5,6 +5,7 @@ import { join } from 'path/posix';
 import { AppModule } from './app.module';
 import { allowedOrigins } from './environments/environment';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import './api/position';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
