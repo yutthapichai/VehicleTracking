@@ -2,7 +2,7 @@ export interface CreateLocationState {
   VehicleID: string;
   Latitude: string;
   Longitude: string;
-  Date?: Date;
+  CurrentDate?: Date;
 }
 
 // export interface CreateLocationState {

@@ -1,11 +1,13 @@
 version: "3.1"
 
 services:
-   mysql:
-     image: mysql:8.0.15
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: tracking
-     ports:
-       - "3306:3306"
+    mysql:
+      image: mysql:latest
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: qwerty26
+        MYSQL_DATABASE: tracking
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./data/tracking.sql:/tracking.sql
