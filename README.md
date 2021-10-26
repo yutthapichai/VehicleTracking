@@ -22,14 +22,35 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## Project 
+Vehicle Tracking API
+
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A vehicle Tracking System is a system for an admin to track the current position of vehicles in a fleet. \
+In order to get the vehicle current position, the vehicle embedded GPS device will report its current position every 10 seconds.
+
 
 ## Installation
 
 ```bash
 $ npm install
+```
+
+## First step
+
+```bash
+# Create database MySQL with docker compose
+$ docker compose up -d
+
+# Create table
+$ npx knex migrate:latest 
+
+# Generate data Vehicle amount 10000 record
+$ npx knex seed:run
+
+# Generate new data Vehicle
+$ npx knex migrate:rollback -> npx knex seed:run
 ```
 
 ## Running the app
@@ -45,29 +66,58 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Middleware by Basic Auth
 
-```bash
-# unit tests
-$ npm run test
+User: adminTester \
+Pass: superAdmin
 
-# e2e tests
-$ npm run test:e2e
+## API
 
-# test coverage
-$ npm run test:cov
-```
+Vehicle \
+  GET localhost:3000/api/vehicle?pagesize=10&page=1 \
+  GET localhost:3000/api/vehicle/1 \
+  POST localhost:3000/api/vehicle \
+  PUT localhost:3000/api/vehicle/1 
+
+Location \
+  GET localhost:3000/api/location?pagesize=10&page=1 \
+  GET localhost:3000/api/location/1 \
+  POST localhost:3000/api/location 
+
+## cURL
+
+Vehicle \
+curl --location --request POST 'localhost:3000/api/vehicle' \
+--header 'Authorization: Basic YWRtaW5UZXN0ZXI6c3VwZXJBZG1pbg==' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'VehicleName=Car taxis' \
+--data-urlencode 'VehicleType=Yellow' \
+--data-urlencode 'TextColor=Green' \
+--data-urlencode 'BackgroundColor=hg121212'
+
+Location \
+curl --location --request POST 'localhost:3000/api/location' \
+--header 'Authorization: Basic YWRtaW5UZXN0ZXI6c3VwZXJBZG1pbg==' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'VehicleID=1' \
+--data-urlencode 'Latitude=37.7768006' \
+--data-urlencode 'Longitude=-122.4187928'
+
+## Image
+
+ Display their journey on a table.
+![image](https://i.ibb.co/0rLhrBJ/Screen-Shot-2564-10-26-at-15-12-28.png)
+
+ Create Vehicle
+![image](https://i.ibb.co/NjWwR1p/Screen-Shot-2564-10-26-at-15-16-18.png)
+
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+https://github.com/yutthapichai/VehicleTracking
+https://www.canva.com/design/DAEs5DJZ03I/7BrbzQ2s2AIq3VwpLN5aJQ/view?
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+App by Yutdev.

@@ -6,6 +6,7 @@ export const Token = Buffer.from(`adminTester:superAdmin`, 'utf8').toString(
 );
 
 console.log('Starting the new location every 10 seconds!');
+
 const setCronJob = new CronJob('*/10 * * * * *', () => {
   console.log('This will be run every 10 seconds for update new location');
   currentPosition().then((result) =>
@@ -31,10 +32,8 @@ const currentPosition = async () => {
         },
       },
     );
-    const result = response.data;
-    return result;
+    return response.data;
   } catch (error) {
-    console.log(error);
     console.log('Error for update the API the new location.');
   }
 };

@@ -5,7 +5,7 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       const vehicles = [];
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 1000; i++) {
         vehicles.push({
           id: i + 1,
           ...dataTest[randomNum(0, 9)],
